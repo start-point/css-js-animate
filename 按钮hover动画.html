@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 导入外部字体 */
+        
+        @font-face {
+            /* 自定义一个名字 使用时font-family：自定义名字 */
+            font-family: 'myfont';
+            /* 字体的路径 */
+            src: url(./font/font22356/Golden-Silver-2.otf);
+        }
+        
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        body {
+            background: #999;
+            /* 弹性布局 */
+            display: flex;
+            /* 水平居中 */
+            justify-content: center;
+            /* 垂直居中 */
+            align-items: center;
+            height: 600px;
+        }
+        
+        button[name="btn"] {
+            width: 150px;
+            height: 60px;
+            background: rgba(49, 73, 49, 0.7);
+            /* 最外层边框为none */
+            outline: none;
+            border: 0;
+            /* 盒子阴影 */
+            box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.6);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 20px;
+            position: relative;
+            /* 小手指 */
+            cursor: pointer;
+        }
+        
+        button[name="btn"]::after {
+            /* 插入内容 >> */
+            content: " >> ";
+            font-size: 18px;
+            /* 相对于父元素的定位 */
+            position: absolute;
+            right: 25px;
+            top: 21px;
+            /* 透明度 */
+            opacity: 0;
+            /* 过渡时间为0.4s */
+            transition: 0.4s;
+        }
+        
+        button[name="btn"]:hover::after {
+            opacity: 0.8;
+            right: 30px;
+        }
+        
+        p {
+            transition: .4s;
+            font-weight: 800;
+            /* 字体 */
+            opacity: 0.8;
+            font-family: 'myfont';
+        }
+        
+        button[name="btn"]:hover p {
+            /* margin-right: 10px; */
+            padding-right: 20px;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <button name="btn">
+        <p>
+            MORE
+        </p>
+    </button>
+</body>
+
+</html>

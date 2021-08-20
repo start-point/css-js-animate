@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/base.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url(./images/iphone/ui-phone.png) no-repeat 50% 50%;
+            background-size: 230px 487px;
+        }
+        
+        #wrap {
+            width: 200px;
+            background: lightcoral;
+            height: 350px;
+            overflow: hidden;
+        }
+        
+        ul {
+            width: 200px;
+            height: 350px;
+            animation: huadong 10s linear infinite;
+        }
+        
+        ul li img {
+            width: 200px;
+            height: 350px;
+        }
+        
+        ul:hover {
+            animation-play-state: paused;
+        }
+        
+        ul li {
+            position: absolute;
+        }
+        
+        ul li:nth-of-type(2) img {
+            transform: translateX(200px);
+        }
+        
+        ul li:nth-of-type(3) img {
+            transform: translateX(400px);
+        }
+        
+        ul li:nth-of-type(4) img {
+            transform: translateX(600px);
+        }
+        
+        ul li:nth-of-type(5) img {
+            transform: translateX(800px);
+        }
+        
+        ul li:nth-of-type(6) img {
+            transform: translateX(1000px);
+        }
+        
+        @keyframes huadong {
+            0% {
+                transform: translateX(0px);
+            }
+            15% {
+                transform: translateX(-200px);
+            }
+            20% {
+                transform: translateX(-200px);
+            }
+            35% {
+                transform: translateX(-400px);
+            }
+            40% {
+                transform: translateX(-400px);
+            }
+            55% {
+                transform: translateX(-600px);
+            }
+            60% {
+                transform: translateX(-600px);
+            }
+            75% {
+                transform: translateX(-800px);
+            }
+            80% {
+                transform: translateX(-800px);
+            }
+            95% {
+                transform: translateX(-1000px);
+            }
+            100% {
+                transform: translateX(-1000px);
+            }
+            85% {
+                transform: translateX(-800px);
+            }
+            80% {
+                transform: translateX(-800px);
+            }
+            65% {
+                transform: translateX(-600px);
+            }
+            60% {
+                transform: translateX(-600px);
+            }
+            45% {
+                transform: translateX(-400px);
+            }
+            40% {
+                transform: translateX(-400px);
+            }
+            25% {
+                transform: translateX(-200px);
+            }
+            20% {
+                transform: translateX(-200px);
+            }
+            5% {
+                transform: translateX(0px);
+            }
+            0% {
+                transform: translateX(0px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+        <ul>
+            <li><img src="./images/iphone/ui01.jpg" alt=""></li>
+            <li><img src="./images/iphone/ui02.jpg" alt=""></li>
+            <li><img src="./images/iphone/ui03.jpg" alt=""></li>
+            <li><img src="./images/iphone/ui04.jpg" alt=""></li>
+            <li><img src="./images/iphone/ui05.jpg" alt=""></li>
+            <li><img src="./images/iphone/ui06.jpg" alt=""></li>
+        </ul>
+    </div>
+</body>
+
+</html>

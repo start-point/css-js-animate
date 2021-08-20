@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            font-family: arial;
+            padding: 0;
+            margin: 0;
+        }
+        
+        #wrap {
+            width: 1000px;
+            height: 500px;
+            margin: 100px auto;
+            position: relative;
+        }
+        
+        ul {
+            width: 7000px;
+            height: 100%;
+            position: absolute;
+        }
+        
+        ul li {
+            width: 1000px;
+            height: 500px;
+            float: left;
+            list-style: none;
+        }
+        
+        ul li img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        /* 京都条 */
+        
+        body {
+            background-color: #555;
+            text-align: center;
+            font-family: arial;
+            overflow-x: hidden;
+        }
+        
+        .pagination {
+            position: absolute;
+            list-style: none;
+            display: inline-block;
+            padding: 0;
+            z-index: 999;
+            top: 450px;
+        }
+        
+        .pagination li {
+            display: inline;
+            text-align: center;
+        }
+        
+        .pagination a {
+            float: left;
+            display: block;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 5px 12px;
+            color: #fff;
+            margin-left: -1px;
+            border: 1px solid transparent;
+            line-height: 1.5;
+        }
+        
+        .modal {
+            position: relative;
+        }
+        
+        .modal:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 35px;
+            left: 0;
+            bottom: 0;
+            z-index: -1;
+            background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 40%, rgba(0, 0, 0, 0.65) 50%, rgba(0, 0, 0, 0.65) 60%, rgba(0, 0, 0, 0) 100%);
+            background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 40%, rgba(0, 0, 0, 0.65) 50%, rgba(0, 0, 0, 0.65) 60%, rgba(0, 0, 0, 0) 100%);
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 40%, rgba(0, 0, 0, 0.65) 50%, rgba(0, 0, 0, 0.65) 60%, rgba(0, 0, 0, 0) 100%);
+        }
+        
+        .modal a {
+            color: #666;
+            padding: 13px 5px 5px;
+            margin: 0 10px;
+            position: relative;
+        }
+        
+        .modal a:hover {
+            color: #fff;
+        }
+        
+        .modal a:hover:after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #1E7EE2;
+            -moz-border-radius: 100%;
+            -webkit-border-radius: 100%;
+            border-radius: 100%;
+            z-index: -1;
+            left: -3px;
+            bottom: 4px;
+            margin: auto;
+        }
+        
+        .modal a.active {
+            background: #1E7EE2;
+            color: #fff;
+        }
+        
+        .modal a.active:before {
+            content: '';
+            position: absolute;
+            top: -11px;
+            left: -10px;
+            width: 18px;
+            border: 10px solid transparent;
+            border-bottom: 7px solid #104477;
+            z-index: -1;
+        }
+        
+        .modal a.active:hover:after {
+            display: none;
+        }
+        /* 按钮 */
+        
+        #btnleft,
+        #btnright {
+            background: lemonchiffon;
+            width: 30px;
+            height: 40px;
+            line-height: 40px;
+            font-weight: 800;
+            font-size: 20px;
+            color: lightblue;
+            position: absolute;
+            top: 45%;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        #btnright {
+            right: 0;
+            top: 45%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+        <ul>
+            <li><img src="./images/a1.jpeg" alt=""></li>
+            <li><img src="./images/a2.jpg" alt=""></li>
+            <li><img src="./images/a3.png" alt=""></li>
+            <li><img src="./images/a4.png" alt=""></li>
+            <li><img src="./images/a5.jpg" alt=""></li>
+        </ul>
+        <ol class="pagination modal">
+            <li> <a href="#" class="active">1</a></li>
+            <li> <a href="#">2</a></li>
+            <li> <a href="#">3</a> </li>
+            <li> <a href="#">4</a></li>
+            <li> <a href="#">5</a></li>
+        </ol>
+        <div id="btnleft">&lt;</div>
+        <div id="btnright">&gt;</div>
+    </div>
+    <script>
+        // 获取最外层的框
+        let wrap = document.querySelector('#wrap')
+            // 获取左边的按钮
+        let btnleft = document.querySelector('#btnleft')
+            // 获取右边的按钮
+        let btnright = document.querySelector('#btnright')
+            // 获取ul标签
+        let ul = wrap.querySelector('#wrap ul')
+            //ol获取a标签
+        let ola = wrap.querySelectorAll('#wrap ol li a')
+            // 获取ol里
+            // 获取li的图克隆前面和后面 克隆是为了 后满轮播图达到秒切  所以在前面和后面添加一张
+        let leftUl = ul.children[0].cloneNode(true)
+        let leftOl = ul.lastElementChild.cloneNode(true)
+            // 给原来的li前后添加图片
+        ul.appendChild(leftUl)
+        ul.insertBefore(leftOl, ul.children[0])
+            // 获取ul ol长度
+        let lis = wrap.children[0].children.length
+        let ols = wrap.children[1].children.length
+            // 设置初始值  初始图片的值
+        ul.style.left = -wrap.offsetWidth + 'px'
+            // 定义初始下标
+        let index = 1
+            // 定义开关
+        let bool = true
+            // 定时器
+        let time = null
+            // 轮播图right封装
+        function _rhgit() {
+            // 开关 不然轮播图多点几次会一直加
+            if (!bool) {
+                return false
+            }
+            bool = false
+            index++
+            // 需要运动的ul
+            animate(ul, {
+                // 需要运动的left值
+                left: -index * wrap.offsetWidth
+            }, function() {
+                // 当index下标等于 (lis-1)是li的长度减一    这个的时候 就让他下标变成1 
+                if (index == lis - 1) {
+                    index = 1
+                        // 下标变成一的同时 让图的left位置变成第一张图片的位置  达到 秒切 
+                    ul.style.left = -index * wrap.offsetWidth + 'px'
+                }
+                // 下面的按钮下标是从0 开始  而图片的下标是从一开始 所以index-1 就等于按钮的下标 让他们一一对应
+                for (let i = 0; i < ola.length; i++) {
+                    // 对应之前 先清空所有的class效果
+                    ola[i].className = ' '
+                }
+                // 当鼠标单击的时候 再给它添加上样式
+                ola[index - 1].className = 'active'
+                bool = true
+            })
+        }
+        // 轮播图left 封装
+        function _left() {
+            if (!bool) {
+                return false
+            }
+            bool = false
+            index--
+            animate(ul, {
+                left: -index * wrap.offsetWidth
+            }, function() {
+                console.log(index)
+                if (index == 0) {
+                    index = 5
+                    ul.style.left = -index * wrap.offsetWidth + 'px'
+                }
+                for (let i = 0; i < ola.length; i++) {
+                    ola[i].className = ' '
+                }
+                ola[index - 1].className = 'active'
+                bool = true
+            })
+        }
+        // 按钮点击
+        let olas = Array.prototype.slice.call(ola)
+        for (let i = 0; i < olas.length; i++) {
+            olas[i].onclick = () => {
+                if (!bool) {
+                    return false
+                }
+                bool = false
+                index = i + 1
+                animate(ul, {
+                    left: -index * wrap.offsetWidth
+                }, function() {
+                    for (let i = 0; i < olas.length; i++) {
+                        olas[i].className = ' '
+                    }
+                    olas[index - 1].className = 'active'
+                    bool = true
+                })
+
+            }
+        }
+
+        // 轮播图点击效果  right
+        btnright.onclick = function() {
+                _rhgit()
+            }
+            // 轮播图点击效果  left
+        btnleft.onclick = function() {
+            _left()
+        }
+
+        function auto() {
+            time = setInterval(function() {
+                _rhgit()
+            }, 2000)
+        }
+        auto()
+        wrap.onmouseover = function() {
+            clearInterval(time)
+        }
+        wrap.onmouseout = function() {
+            auto()
+        }
+
+
+        // 简单运动封装的函数
+        function animate(ele, obj, fn = () => {}) {
+            let k = 0
+            let n = 0
+            for (let attr in obj) {
+                k++
+                let timerId = setInterval(function() {
+                    let target = obj[attr]
+                        // 获取left
+                    let currentStyle = getStyle(ele, attr)
+                    if (attr === 'opacity') {
+                        target *= 100
+                        currentStyle *= 100
+                    }
+                    currentStyle = parseInt(currentStyle)
+                        // 定义速度
+                    let speed = (target - currentStyle) / 10
+                        // 这个速度是永远到不了目标的，无限的贴近目标 - 向上取整变成整数
+                        // 正小数就想上取整，负小数就应该向下取证
+                    if (speed > 0) {
+                        speed = Math.ceil(speed)
+                    } else {
+                        speed = Math.floor(speed)
+                    }
+                    // 增加left
+                    currentStyle += speed
+                        // 限制left
+                    if (currentStyle === target) {
+                        // 设置left
+                        if (attr === 'opacity') {
+                            ele.style[attr] = currentStyle / 100
+                        } else {
+                            ele.style[attr] = currentStyle + "px"
+                        }
+                        currentStyle = target
+                        clearInterval(timerId)
+                        n++
+                        if (k === n) {
+                            fn()
+                        }
+                    } else {
+                        // 设置left
+                        if (attr === 'opacity') {
+                            ele.style[attr] = currentStyle / 100
+                        } else {
+                            ele.style[attr] = currentStyle + "px"
+                        }
+                    }
+
+                }, 10)
+            }
+        }
+        // 获取样式的函数
+        function getStyle(ele, attr) {
+            if (window.getComputedStyle) {
+                return window.getComputedStyle(ele)[attr]
+            } else {
+                return ele.currentStyle[attr]
+            }
+        }
+    </script>
+</body>
+
+</html>

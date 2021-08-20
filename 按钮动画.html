@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/base.css">
+    <style>
+        ul {
+            width: 550px;
+            height: 60px;
+            /* background: cornflowerblue; */
+            margin: 50px;
+        }
+        
+        ul li {
+            /* height: 30%; */
+            line-height: 60px;
+            text-align: center;
+            list-style: none;
+            cursor: pointer;
+            letter-spacing: 1px;
+            float: left;
+            width: 20%;
+            margin-right: 5%;
+            /* margin-left: 10px; */
+            background: cornflowerblue;
+            box-shadow: 0 0 4px black, 0 0 4px rgb(173, 118, 118), 0 0 4px rgb(37, 88, 155);
+            transition: .4s;
+            font-size: 16px;
+            color: rgb(173, 227, 235);
+            position: relative;
+            overflow: hidden;
+            z-index: 99;
+        }
+        
+        ul li::after {
+            content: "";
+            background: rgba(116, 74, 74, 0.6);
+            width: 70%;
+            height: 100%;
+            position: absolute;
+            left: -40px;
+            opacity: 0.2;
+            box-shadow: 0 0 4px black, 0 0 4px rgb(173, 118, 118), 0 0 4px rgb(37, 88, 155);
+            transform: skew(45deg);
+            transition: .4s;
+            z-index: 99;
+            filter: blur(4px);
+        }
+        /* ul li::before {
+            content: "11 ";
+            background: rgba(116, 74, 74, 0.6);
+            width: 30%;
+            height: 10%;
+            position: absolute;
+            top: 55px;
+            left: 40px;
+            position: absolute;
+            z-index: -1;
+            opacity: 1;
+            box-shadow: 0 0 4px rgb(231, 13, 13), 0 0 4px rgb(173, 118, 118), 0 0 4px rgb(37, 88, 155);
+            transition: .4s;
+        } */
+        
+        ul li:hover {
+            letter-spacing: 3px;
+            box-shadow: 0 0 4px black, 0 0 4px rgb(173, 118, 118), 0 0 4px rgb(37, 88, 155);
+        }
+        
+        ul li:hover::after {
+            width: 200%;
+        }
+        /* ul li:hover::before {
+            width: 200%;
+        } */
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>Open The</li>
+        <li>Open The</li>
+        <li>Open The</li>
+        <li>Open The</li>
+    </ul>
+</body>
+
+</html>

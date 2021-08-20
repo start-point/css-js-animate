@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        table {
+            width: 600px;
+            border: 1px solid blue;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        
+        th {
+            border: 1px solid blue;
+            height: 50px;
+        }
+        
+        td {
+            border: 1px solid blue;
+            height: 40px;
+        }
+        
+        tbody {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table>
+        <thead>
+            <tr>
+                <th>小明子</th>
+                <th>小性别</th>
+                <th>小年龄</th>
+                <th>小炒作</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div id="wrap"></div>
+</body>
+<script>
+    function Page(selector, options, ele = function() {}) {
+        this.options = options
+        this.ele = ele || function() {}
+        this.default = {
+                symbol: {
+                    homePage: '|<<',
+                    previousPage: '<<',
+                    list: '',
+                    nextePage: '>>',
+                    backPage: '>>|'
+                },
+                pageDate: {
+                    information: 1000,
+                    pages: 10
+                }
+            }
+            // 总页码
+        this.TotalPage = Math.ceil(this.default.pageDate.information / this.default.pageDate.pages)
+            // 当前页码
+        this.currentPage = 1
+        this.wrap = document.querySelector(selector)
+            // 创建一个div
+        this.div = document.createElement('div')
+        this.wrap.appendChild(this.div)
+            // 设置this.div的样式
+        setStyle(this.div, {
+            height: '60px',
+            width: '600px',
+            border: '1px solid blue',
+            margin: '0 auto',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+        })
+        this.createdDiv()
+        this.setDefault()
+        this.createPageNumber()
+        this.createP()
+        this._click()
+        this.ele(this.currentPage)
+            // this._Go()
+
+    }
+    // // 点击跳转
+    // Page.prototype._Go = function() {
+    //     let input = document.createElement('input')
+    //     setStyle(input, {
+    //         border: '1px solid blue',
+    //         width: '30px',
+    //         height: '30px',
+    //         background: '#1E7EE2',
+    //         borderRadius: '100%',
+    //         borderRadius: '100%',
+    //         borderRadius: '100%',
+    //         fontSize: '12px',
+    //         textAlign: 'center',
+    //         lineHeight: '30px',
+    //         marginRight: '5px',
+    //         outline: 'none',
+    //     })
+    //     this.div.appendChild(input)
+    //     let span = document.createElement('span')
+    //     span.innerHTML = 'Go'
+    //     setStyle(span, {
+    //         border: '1px solid blue',
+    //         color: '#fff',
+    //         width: '30px',
+    //         height: '30px',
+    //         background: '#1E7EE2',
+    //         borderRadius: '100%',
+    //         borderRadius: '100%',
+    //         borderRadius: '100%',
+    //         fontSize: '12px',
+    //         textAlign: 'center',
+    //         lineHeight: '30px',
+    //     })
+    //     this.div.appendChild(span)
+    // }
+    Page.prototype._click = function() {
+            this.div.onclick = evt => {
+                let e = evt || window.event
+                let target = e.target || e.srcElement
+                if (target.className == 'homePage') {
+                    this.currentPage = 1
+                    this.createP()
+                    this.ele(this.currentPage)
+                } else if (target.className == 'previousPage') {
+                    this.currentPage--
+                        if (this.currentPage < 1) {
+                            this.currentPage = 1
+                            return false
+                        }
+                    this.createP()
+                    this.ele(this.currentPage)
+                } else if (target.className == 'nextePage') {
+                    this.currentPage++
+                        if (this.currentPage > this.TotalPage) {
+                            this.currentPage = this.TotalPage
+                            return false
+                        }
+                    this.createP()
+                    this.ele(this.currentPage)
+                } else if (target.className == 'backPage') {
+                    this.currentPage = this.TotalPage
+                    this.createP()
+                    this.ele(this.currentPage)
+                } else if (target.nodeName == 'P') {
+                    this.currentPage = target.innerText - 0
+                    this.createP()
+                    this.ele(this.currentPage)
+                }
+            }
+
+        }
+        // 
+        // 向页面创建p标签
+    Page.prototype.createP = function() {
+            this.list.innerHTML = ''
+            if (this.currentPage <= 5) {
+                for (let i = 1; i <= 5; i++) {
+                    let _p = document.createElement('p')
+                    _p.innerText = i
+                    this.list.appendChild(_p)
+                    setStyle(_p, {
+                        margin: '10px',
+                        border: '1px solid blue',
+                        width: '24px',
+                        height: '24px',
+                        background: '#1E7EE2',
+                        borderRadius: '100%',
+                        borderRadius: '100%',
+                        borderRadius: '100%',
+                        fontSize: '12px',
+                        textAlign: 'center',
+                        lineHeight: '24px',
+
+                    })
+                    if (this.currentPage === i) {
+                        _p.style.backgroundColor = 'yellowgreen';
+                    }
+                }
+            } else {
+                // 1.当前页<=3  1~5
+                if (this.currentPage <= 3) {
+                    for (let i = 1; i <= this.TotalPage; i++) {
+                        let _p = document.createElement('p')
+                        _p.innerText = i
+                        this.list.appendChild(_p)
+                        setStyle(_p, {
+                            margin: '10px',
+                            border: '1px solid blue',
+                            width: '24px',
+                            height: '24px',
+                            background: '#1E7EE2',
+                            borderRadius: '100%',
+                            borderRadius: '100%',
+                            borderRadius: '100%',
+                            fontSize: '12px',
+                            textAlign: 'center',
+                            lineHeight: '24px',
+
+                        })
+                        if (this.currentPage === i) {
+                            _p.style.backgroundColor = 'yellowgreen';
+                        }
+                    }
+                    // 2.当前页>=总页数-1   最后5个页面  总页数-4~总页数
+                } else if (this.currentPage >= this.TotalPage - 2) {
+                    for (let i = this.TotalPage - 4; i <= this.TotalPage; i++) {
+                        let _p = document.createElement('p')
+                        _p.innerText = i
+                        this.list.appendChild(_p)
+                        setStyle(_p, {
+                            margin: '10px',
+                            border: '1px solid blue',
+                            width: '24px',
+                            height: '24px',
+                            background: '#1E7EE2',
+                            borderRadius: '100%',
+                            borderRadius: '100%',
+                            borderRadius: '100%',
+                            fontSize: '12px',
+                            textAlign: 'center',
+                            lineHeight: '24px',
+                        })
+                        if (this.currentPage === i) {
+                            _p.style.backgroundColor = 'yellowgreen';
+                        }
+                    }
+                } else {
+                    // 
+                    for (let i = this.currentPage - 2; i <= this.currentPage + 2; i++) {
+                        let _p = document.createElement('p')
+                        _p.innerText = i
+                        this.list.appendChild(_p)
+                        setStyle(_p, {
+                            margin: '10px',
+                            border: '1px solid blue',
+                            width: '24px',
+                            height: '24px',
+                            background: '#1E7EE2',
+                            borderRadius: '100%',
+                            borderRadius: '100%',
+                            borderRadius: '100%',
+                            fontSize: '12px',
+                            textAlign: 'center',
+                            lineHeight: '24px',
+                        })
+                        if (this.currentPage === i) {
+                            _p.style.backgroundColor = 'yellowgreen';
+                        }
+                    }
+                }
+            }
+        }
+        // 创建首页按钮 遍历创建
+    Page.prototype.createPageNumber = function() {
+            for (let attr in this.default.symbol) {
+                let divs = document.createElement('div')
+                divs.innerHTML = this.default.symbol[attr]
+                divs.className = attr
+                this.div.appendChild(divs)
+
+                if (attr == 'list') {
+                    // 当这里等于divs 的时候才能让上面创建的p标签插入进去
+                    this.list = divs
+                    setStyle(this.list, {
+                        display: 'flex',
+                    })
+                } else {
+                    setStyle(divs, {
+                        margin: '10px',
+                        height: '30px',
+                        width: '50px',
+                        textAlign: 'center',
+                        lineHeight: '30px',
+                    })
+                }
+
+            }
+        }
+        // 默认值覆盖  传进来的对象 覆盖给默认值 如果没有就用默认值
+    Page.prototype.setDefault = function() {
+        for (let attr in this.options.symbol) {
+            this.default.symbol[attr] = this.options.symbol[attr]
+        }
+        for (let attr in this.options.pageDate) {
+            this.default.pageDate[attr] = this.options.pageDate[attr]
+        }
+    }
+    Page.prototype.createdDiv = function() {
+            // console.log(this.div)
+        }
+        // 设置css样式
+    function setStyle(ele, styleobj) {
+        for (let attr in styleobj) {
+            ele.style[attr] = styleobj[attr]
+        }
+    }
+
+    let sum = []
+    let objData1 = '我的世界你好你好我的世界'
+    let objData2 = '世嘎嘎嘎强我国防九七二陪我逛街欧气高品位界'
+    for (let i = 0; i < 1000; i++) {
+        let obj = {}
+        let randomData = objData1[parseInt(Math.random() * objData1.length)] + objData2[parseInt(Math.random() * objData2.length)]
+        obj.name = randomData
+        obj.age = parseInt(Math.random() * 1000)
+        obj.sex = '男女' [parseInt(Math.random() * 2)]
+        sum.push(obj)
+    }
+    console.log(sum)
+    new Page('#wrap', {
+        symbol: {
+            homePage: '回家',
+            previousPage: '上一页',
+            list: '',
+            nextePage: '下一页',
+            backPage: '归西'
+        },
+        pageDate: {
+            information: sum.length,
+            pages: 10
+        }
+    }, function(currentPage) {
+        let data = sum.slice((currentPage - 1) * 10, currentPage * 10)
+        let str = ''
+        for (let i = 0; i < data.length; i++) {
+            str += `
+                    <tr>
+                        <td>${data[i].name}</td>
+                        <td>${data[i].age}</td>
+                        <td>${data[i].sex}</td>
+                        <td>删除</td>
+                    </tr>
+                `
+        }
+        document.querySelector('tbody').innerHTML = str
+    })
+</script>
+
+</html>
